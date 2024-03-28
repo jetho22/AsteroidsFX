@@ -13,14 +13,22 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
     public void process(GameData gameData, World world) {
 
         for (Entity bullet : world.getEntities(Bullet.class)) {
+            double bulletSpeed = 4;
+            bullet.setX(bullet.getX() + bulletSpeed * Math.cos(Math.toRadians(bullet.getRotation())));
+            bullet.setY(bullet.getY() + bulletSpeed * Math.sin(Math.toRadians(bullet.getRotation())));
 
         }
     }
 
     @Override
     public Entity createBullet(Entity shooter, GameData gameData) {
-
-        return null;
+        Entity bullet = new Bullet();
+        bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
+        bullet.setX(shooter.getX());
+        bullet.setY(shooter.getY());
+        bullet.setRotation(shooter.getRotation());
+        System.out.println("Open fire!!");
+        return bullet;
     }
 
     private void setShape(Entity entity) {
