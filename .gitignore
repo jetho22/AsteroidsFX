@@ -29,4 +29,6 @@ replay_pid*
 /Player/target/
 /Bullet/target/
 /CommonBullet/target/
+/CommonAsteroid/target/
+/Asteroid/target/
 /.idea/
