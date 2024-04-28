@@ -33,6 +33,7 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
         Entity asteroid = new Asteroid();
         Random rnd = new Random();
         double size = rnd.nextDouble(21) + 10;
+        double radius = size / 2; // Calculate the radius based on the size
         // Define the polygon coordinates to create an irregular shape
         double[] polygonCoordinates = {
                 -size/2, -size/4,    // Top-left
@@ -55,6 +56,7 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
 
         // Set a random rotation for the asteroid, up to 360 degrees
         asteroid.setRotation(rnd.nextInt(360));
+        asteroid.setRadius((float) radius);
         return asteroid;
     }
 

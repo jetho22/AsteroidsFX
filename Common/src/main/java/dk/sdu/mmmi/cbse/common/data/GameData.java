@@ -5,6 +5,9 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
+    private float delta;
+    private double elapsedTime;
+
 
 
     public GameKeys getKeys() {
@@ -27,5 +30,20 @@ public class GameData {
         return displayHeight;
     }
 
+    public float getDelta() {
+        return delta;
+    }
+
+    public void setDelta(float delta) {
+        this.delta = delta;
+    }
+
+    public double getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(double elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
 
 }
