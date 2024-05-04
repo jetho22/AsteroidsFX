@@ -3,7 +3,7 @@
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonAsteroid/target/CommonAsteroid-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonBullet/target/CommonBullet-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:"/>
+    <property name="java.class.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2.jar:"/>
     <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
@@ -12,15 +12,15 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DK"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/21.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/surefire 2024-04-30T01-37-07_978-jvmRun1 surefire-20240430013711965_1tmp surefire_0-20240430013711965_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/surefire 2024-05-04T17-32-25_355-jvmRun1 surefire-20240504173230333_4tmp surefire_1-20240504173230333_5tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonAsteroid/target/CommonAsteroid-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonBullet/target/CommonBullet-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/jeppethomsen"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="jdk.module.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/classes:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Common/target/Common-1.0.1-SNAPSHOT.jar"/>
+    <property name="jdk.module.path" value="/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/classes:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Common/target/Common-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonAsteroid/target/CommonAsteroid-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonBullet/target/CommonBullet-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Asteroid/target/Asteroid-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonEnemy/target/CommonEnemy-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2-mac-aarch64.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2-mac-aarch64.jar"/>
     <property name="java.version.date" value="2024-01-16"/>
     <property name="java.home" value="/opt/homebrew/Cellar/openjdk/21.0.2/libexec/openjdk.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
@@ -30,7 +30,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-booter/3.2.2/surefire-booter-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-api/3.2.2/surefire-api-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-logger-api/3.2.2/surefire-logger-api-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-shared-utils/3.2.2/surefire-shared-utils-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-extensions-spi/3.2.2/surefire-extensions-spi-3.2.2.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonAsteroid/target/CommonAsteroid-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/CommonBullet/target/CommonBullet-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-junit3/3.2.2/surefire-junit3-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/common-java5/3.2.2/common-java5-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/common-junit3/3.2.2/common-junit3-3.2.2.jar"/>
+    <property name="surefire.real.class.path" value="/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-booter/3.2.2/surefire-booter-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-api/3.2.2/surefire-api-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-logger-api/3.2.2/surefire-logger-api-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-shared-utils/3.2.2/surefire-shared-utils-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-extensions-spi/3.2.2/surefire-extensions-spi-3.2.2.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Collision/target/test-classes:/Users/jeppethomsen/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/jeppethomsen/githubprojects/CBS/AsteroidsFX/Player/target/Player-1.0.1-SNAPSHOT.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-graphics/21.0.2/javafx-graphics-21.0.2.jar:/Users/jeppethomsen/.m2/repository/org/openjfx/javafx-base/21.0.2/javafx-base-21.0.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/surefire-junit3/3.2.2/surefire-junit3-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/common-java5/3.2.2/common-java5-3.2.2.jar:/Users/jeppethomsen/.m2/repository/org/apache/maven/surefire/common-junit3/3.2.2/common-junit3-3.2.2.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.2"/>
@@ -59,5 +59,5 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testApp" classname="dk.sdu.mmmi.cbse.collision.AppTest" time="0.002"/>
+  <testcase name="testApp" classname="dk.sdu.mmmi.cbse.collision.AppTest" time="0.004"/>
 </testsuite>
