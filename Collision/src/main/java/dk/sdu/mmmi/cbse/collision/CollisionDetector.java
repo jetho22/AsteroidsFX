@@ -4,17 +4,25 @@ import dk.sdu.mmmi.cbse.asteroid.AsteroidSplitterImpl;
 import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
 import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
+import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.enemy.Enemy;
+import dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
+import java.util.Collection;
+import java.util.ServiceLoader;
+
+import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
 
+    private EnemySPI enemySPI;
     public CollisionDetector() {
+        this.enemySPI = getEnemySPIs();
     }
     IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
     @Override
@@ -43,10 +51,14 @@ public class CollisionDetector implements IPostEntityProcessingService {
                     if (entity1 instanceof Enemy) {
                         world.removeEntity(entity1);
                         world.removeEntity(entity2);
+                        world.addEntity(getEnemySPIs().createEnemy(gameData));
+                        System.out.println("Added new enemy");
                     }
                     if (entity2 instanceof Enemy) {
                         world.removeEntity(entity1);
                         world.removeEntity(entity2);
+                        world.addEntity(getEnemySPIs().createEnemy(gameData));
+                        System.out.println("Added new enemy");
                     }
                     if (entity1 instanceof Player) {
                         world.removeEntity(entity1);
@@ -85,6 +97,9 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 world.removeEntity(asteroid);
                 break;
         }
+    }
+    private EnemySPI getEnemySPIs() {
+        return ServiceLoader.load(EnemySPI.class).findFirst().orElse(null);
     }
 }
 

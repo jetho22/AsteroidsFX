@@ -23,7 +23,9 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
 
     @Override
     public void start(GameData gameData, World world) {
-        enemyCreationTimer(gameData, world);
+        Entity enemy = createEnemy(gameData);
+        world.addEntity(enemy);
+        //enemyCreationTimer(gameData, world);
         enemyStartShooting(gameData, world);
     }
 
@@ -34,8 +36,9 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
         }
     }
 
+    @Override
     public Entity createEnemy(GameData gameData) {
-        Entity enemy = new Enemy();
+        Enemy enemy = new Enemy();
         Random rnd = new Random();
         double size = rnd.nextDouble() * 40 + 30;
         double radius = (size / 2) - 5;
