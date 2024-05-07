@@ -4,7 +4,6 @@ import dk.sdu.mmmi.cbse.asteroid.AsteroidSplitterImpl;
 import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
 import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -19,11 +18,8 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
-
-    private EnemySPI enemySPI;
-    public CollisionDetector() {
-        this.enemySPI = getEnemySPIs();
-    }
+    public CollisionDetector() {}
+    
     IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
     @Override
     public void process(GameData gameData, World world) {
@@ -49,24 +45,16 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 // The player can destroy and be destroyed by every entity - same goes for the enemies
                 if (this.collides(entity1, entity2)) {
                     if (entity1 instanceof Enemy) {
-                        world.removeEntity(entity1);
-                        world.removeEntity(entity2);
-                        world.addEntity(getEnemySPIs().createEnemy(gameData));
-                        System.out.println("Added new enemy");
+                        handleEntityEnemyCollision(entity1, entity2, world);
                     }
                     if (entity2 instanceof Enemy) {
-                        world.removeEntity(entity1);
-                        world.removeEntity(entity2);
-                        world.addEntity(getEnemySPIs().createEnemy(gameData));
-                        System.out.println("Added new enemy");
+                        handleEntityEnemyCollision(entity1, entity2, world);
                     }
                     if (entity1 instanceof Player) {
-                        world.removeEntity(entity1);
-                        world.removeEntity(entity2);
+                        handleEntityPlayerCollision(entity1, entity2, world);
                     }
                     if (entity2 instanceof Player) {
-                        world.removeEntity(entity1);
-                        world.removeEntity(entity2);
+                        handleEntityPlayerCollision(entity1, entity2, world);
                     }
                 }
             }
@@ -98,8 +86,23 @@ public class CollisionDetector implements IPostEntityProcessingService {
                 break;
         }
     }
-    private EnemySPI getEnemySPIs() {
-        return ServiceLoader.load(EnemySPI.class).findFirst().orElse(null);
+
+    public void handleEntityEnemyCollision(Entity entity, Entity enemy, World world) {
+        world.removeEntity(entity);
+        world.removeEntity(enemy);
+        getEnemySPIs().stream().findFirst().ifPresent(
+                spi -> {
+                    world.addEntity(spi.createEnemy(new GameData()));
+                });
+    }
+
+    public void handleEntityPlayerCollision(Entity entity, Entity player, World world) {
+        world.removeEntity(entity);
+        world.removeEntity(player);
+    }
+
+    private Collection<? extends EnemySPI> getEnemySPIs() {
+        return ServiceLoader.load(EnemySPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }
 
