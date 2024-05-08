@@ -23,9 +23,10 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
 
     @Override
     public void start(GameData gameData, World world) {
+        //Adding an enemy at the start of the game
         Entity enemy = createEnemy(gameData);
         world.addEntity(enemy);
-        //enemyCreationTimer(gameData, world);
+        // Make enemies shoot once per second
         enemyStartShooting(gameData, world);
     }
 
@@ -53,14 +54,6 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
         enemy.setRotation(rnd.nextInt(360));
         enemy.setRadius((float) radius);
         return enemy;
-    }
-
-    public void enemyCreationTimer(GameData gameData, World world) {
-        scheduler.scheduleAtFixedRate(() -> {
-            System.out.println("Enemy spawned!");
-            Entity enemy = createEnemy(gameData);
-            world.addEntity(enemy);
-        }, 0, 5, TimeUnit.SECONDS);
     }
 
     public void enemyStartShooting(GameData gameData, World world) {

@@ -6,24 +6,18 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.enemy.Enemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
 public class EnemyControlSystem implements IEntityProcessingService {
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
     @Override
     public void process(GameData gameData, World world) {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
             double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
-            moveRandomly(enemy, gameData);
+            moveRandomly(enemy);
             checkEnemyOutOfBounds(enemy, gameData);
         }
     }
 
-    private void moveRandomly(Entity enemy, GameData gameData) {
+    private void moveRandomly(Entity enemy) {
         // Randomly adjust the rotation
         if (Math.random() > 0.9) {
             enemy.setRotation(enemy.getRotation() + (Math.random() > 0.5 ? 5 : -5));
