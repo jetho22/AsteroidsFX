@@ -30,54 +30,20 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
         scheduler.shutdown();
     }
 
-    // This method is used to create an asteroid with a specific type and size
-    // This method was used before the randomAsteroidPicker method was created
-    /*public Entity createAsteroid(GameData gameData) {
-        Entity asteroid = new Asteroid();
-        Random rnd = new Random();
-        double size = rnd.nextDouble(21) + 10;
-        double radius = size / 2; // Calculate the radius based on the size
-        // Define the polygon coordinates to create an irregular shape
-        double[] polygonCoordinates = {
-                -size/2, -size/4,    // Top-left
-                -size/4, -size/2,    // Top-middle
-                size/4, -size/2,     // Top-right
-                size/2, -size/4,     // Right-middle
-                size/2, size/4,      // Bottom-right
-                size/4, size/2,      // Bottom-middle
-                -size/4, size/2,     // Bottom-left
-                -size/2, size/4      // Left-middle
-        };
-
-        // Set the polygon coordinates
-        asteroid.setPolygonCoordinates(polygonCoordinates);
-        // Set the initial position of the asteroid at random coordinates within the game area
-        int initialX = rnd.nextInt(gameData.getDisplayWidth());
-        int initialY = rnd.nextInt(gameData.getDisplayHeight());
-        asteroid.setX(initialX);
-        asteroid.setY(initialY);
-
-        // Set a random rotation for the asteroid, up to 360 degrees
-        asteroid.setRotation(rnd.nextInt(360));
-        asteroid.setRadius((float) radius);
-        return asteroid;
-    }*/
-
     public Entity createAsteroid(GameData gameData, Asteroid.Type type, double size) {
         Asteroid asteroid = new Asteroid();
         Random rnd = new Random();
         asteroid.setType(type);
-        double radius = size / 2; // Calculate the radius based on the size
-        // Define the polygon coordinates to create an irregular shape
+        double radius = size / 2;
         double[] polygonCoordinates = {
-                -size/2, -size/4,    // Top-left
-                -size/4, -size/2,    // Top-middle
-                size/4, -size/2,     // Top-right
-                size/2, -size/4,     // Right-middle
-                size/2, size/4,      // Bottom-right
-                size/4, size/2,      // Bottom-middle
-                -size/4, size/2,     // Bottom-left
-                -size/2, size/4      // Left-middle
+                -size/2, -size/4,
+                -size/4, -size/2,
+                size/4, -size/2,
+                size/2, -size/4,
+                size/2, size/4,
+                size/4, size/2,
+                -size/4, size/2,
+                -size/2, size/4
         };
         int initialX = rnd.nextInt(gameData.getDisplayWidth());
         int initialY = rnd.nextInt(gameData.getDisplayHeight());
@@ -111,7 +77,7 @@ public class AsteroidPlugin implements IGamePluginService, AsteroidSPI {
             case 2:
                 return largeAsteroid(gameData);
             default:
-                return largeAsteroid(gameData);
+                return null;
         }
     }
 

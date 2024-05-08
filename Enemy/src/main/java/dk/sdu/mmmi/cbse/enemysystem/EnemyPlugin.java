@@ -35,6 +35,7 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             world.removeEntity(enemy);
         }
+        scheduler.shutdown();
     }
 
     @Override

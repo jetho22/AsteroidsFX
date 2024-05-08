@@ -9,16 +9,9 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
 
-    private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
     @Override
     public void process(GameData gameData, World world) {
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
-            double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
-            double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
-
-            asteroid.setX(asteroid.getX() + changeX * 0.5);
-            asteroid.setY(asteroid.getY() + changeY * 0.5);
-
             asteroidMovement(asteroid);
             checkAsteroidOutOfBounds(asteroid, gameData);
         }
@@ -43,17 +36,9 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     }
 
     public void asteroidMovement(Entity asteroid) {
-        double newPosX = asteroid.getDirectionX() + asteroid.getX();
-        double newPosY = asteroid.getDirectionY() + asteroid.getY();
-        asteroid.setX(newPosX);
-        asteroid.setY(newPosY);
-    }
-
-    public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
-        this.asteroidSplitter = asteroidSplitter;
-    }
-
-    public void removeAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
-        this.asteroidSplitter = null;
+        double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
+        double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
+        asteroid.setX(asteroid.getX() + changeX * 0.5);
+        asteroid.setY(asteroid.getY() + changeY * 0.5);
     }
 }
