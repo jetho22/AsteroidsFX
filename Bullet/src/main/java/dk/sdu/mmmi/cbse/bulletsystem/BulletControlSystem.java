@@ -7,32 +7,28 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
+public class BulletControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(GameData gameData, World world) {
-
         for (Entity bullet : world.getEntities(Bullet.class)) {
-            double bulletSpeed = 4;
-            bullet.setX(bullet.getX() + bulletSpeed * Math.cos(Math.toRadians(bullet.getRotation())));
-            bullet.setY(bullet.getY() + bulletSpeed * Math.sin(Math.toRadians(bullet.getRotation())));
-
+            bulletMovement(bullet);
+            removeBulletIfOutOfBounds(bullet, gameData, world);
         }
     }
 
-    @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
-        Entity bullet = new Bullet();
-        bullet.setPolygonCoordinates(2, -2, 2, 2, -2, 2, -2, -2);
-        double changeX = Math.cos(Math.toRadians(shooter.getRotation()));
-        double changeY = Math.sin(Math.toRadians(shooter.getRotation()));
-        bullet.setX(shooter.getX() + shooter.getRadius() * changeX);
-        bullet.setY(shooter.getY() + shooter.getRadius() * changeY);
-        bullet.setRotation(shooter.getRotation());
-        return bullet;
+    public void bulletMovement(Entity bullet) {
+        double bulletSpeed = 4;
+        bullet.setX(bullet.getX() + bulletSpeed * Math.cos(Math.toRadians(bullet.getRotation())));
+        bullet.setY(bullet.getY() + bulletSpeed * Math.sin(Math.toRadians(bullet.getRotation())));
     }
 
-    private void setShape(Entity entity) {
+    public void removeBulletIfOutOfBounds(Entity bullet, GameData gameData, World world) {
+        if (bullet.getX() < 0 || bullet.getX() > gameData.getDisplayWidth() ||
+                bullet.getY() < 0 || bullet.getY() > gameData.getDisplayHeight()) {
+            world.removeEntity(bullet);
+        }
     }
+
 
 }
