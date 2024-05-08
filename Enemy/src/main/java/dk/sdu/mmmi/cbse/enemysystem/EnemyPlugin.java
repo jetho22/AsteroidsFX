@@ -72,7 +72,7 @@ public class EnemyPlugin implements IGamePluginService, EnemySPI {
                         }
                 );
             }
-        }, 0, 2, TimeUnit.SECONDS);
+        }, 0, 1, TimeUnit.SECONDS);
     }
     private Collection<? extends BulletSPI> getBulletSPIs() {
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
