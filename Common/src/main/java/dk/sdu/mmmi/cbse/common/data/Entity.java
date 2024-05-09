@@ -14,12 +14,15 @@ public class Entity implements Serializable {
     private float radius;
     double directionX;
     double directionY;
-            
+    int lives;
+
+    public Entity(int lives) {
+        this.lives = lives;
+    }
 
     public String getID() {
         return ID.toString();
     }
-
 
     public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;
@@ -78,5 +81,17 @@ public class Entity implements Serializable {
 
     public void setDirectionY(double directionY) {
         this.directionY = directionY;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public void reduceLives() {
+        this.lives--;
     }
 }

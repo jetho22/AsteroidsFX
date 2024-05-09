@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.enemy.Enemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
@@ -15,6 +16,8 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
+
+import dk.sdu.mmmi.cbse.playersystem.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,6 +34,8 @@ public class Main extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
     private long startTime = System.nanoTime();
+    private final Text playerLivesText = new Text();
+    private final Text enemyLivesText = new Text();
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -38,10 +43,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        playerLivesText.setText("Player Lives: " + getPlayerLives());
+        playerLivesText.setX(10);
+        playerLivesText.setY(20);
+        enemyLivesText.setText("Enemy Lives: " + getEnemyLives());
+        enemyLivesText.setX(10);
+        enemyLivesText.setY(40);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
-
+        gameWindow.getChildren().add(playerLivesText);
+        gameWindow.getChildren().add(enemyLivesText);
         Scene scene = new Scene(gameWindow);
 
         scene.setOnKeyPressed(event -> {
@@ -92,6 +102,20 @@ public class Main extends Application {
 
     }
 
+    private int getPlayerLives() {
+        return world.getEntities(Player.class).stream()
+                .findFirst()
+                .map(Entity::getLives)
+                .orElse(0);
+    }
+
+    private int getEnemyLives() {
+        return world.getEntities(Enemy.class).stream()
+                .findFirst()
+                .map(Entity::getLives)
+                .orElse(0);
+    }
+
     private void render() {
         new AnimationTimer() {
             private long lastTime = System.nanoTime();
@@ -125,6 +149,8 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
+        playerLivesText.setText("Player Lives: " + getPlayerLives());
+        enemyLivesText.setText("Enemy Lives: " + getEnemyLives());
     }
 
     private void draw() {

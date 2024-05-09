@@ -13,6 +13,7 @@ public class Asteroid extends Entity {
     private Type type;
 
     public Asteroid() {
+        super(1);
     }
 
     public Type getType() {

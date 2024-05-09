@@ -88,17 +88,31 @@ public class CollisionDetector implements IPostEntityProcessingService {
     }
 
     public void handleEntityEnemyCollision(Entity entity, Entity enemy, World world) {
-        world.removeEntity(entity);
-        world.removeEntity(enemy);
-        getEnemySPIs().stream().findFirst().ifPresent(
-                spi -> {
-                    world.addEntity(spi.createEnemy(new GameData()));
-                });
+        if (enemy instanceof Enemy) {
+            enemy.reduceLives();
+            if (enemy.getLives() == 0) {
+                world.removeEntity(enemy);
+                world.removeEntity(entity);
+                getEnemySPIs().stream().findFirst().ifPresent(
+                        spi -> {
+                            world.addEntity(spi.createEnemy(new GameData()));
+                        });
+            } else {
+                world.removeEntity(entity);
+            }
+        }
     }
 
     public void handleEntityPlayerCollision(Entity entity, Entity player, World world) {
-        world.removeEntity(entity);
-        world.removeEntity(player);
+        if (player instanceof Player) {
+            player.reduceLives();
+            if (player.getLives() == 0) {
+                world.removeEntity(player);
+                world.removeEntity(entity);
+            } else {
+                world.removeEntity(entity);
+            }
+        }
     }
 
     private Collection<? extends EnemySPI> getEnemySPIs() {
