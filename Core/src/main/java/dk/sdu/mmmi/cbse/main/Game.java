@@ -49,12 +49,6 @@ public class Game {
     }
 
     public void start(Stage window) throws Exception {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
-
-        for (String beanName : ctx.getBeanDefinitionNames()) {
-            System.out.println(beanName);
-        }
-
         playerLivesText.setText("Player Lives: " + getPlayerLives());
         playerLivesText.setX(10);
         playerLivesText.setY(20);
