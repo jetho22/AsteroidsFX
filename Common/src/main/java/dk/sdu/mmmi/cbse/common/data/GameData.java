@@ -7,6 +7,7 @@ public class GameData {
     private final GameKeys keys = new GameKeys();
     private float delta;
     private double elapsedTime;
+    private Entity player;
 
 
 
@@ -46,4 +47,10 @@ public class GameData {
         this.elapsedTime = elapsedTime;
     }
 
+    public void setPlayer(Entity player) {
+        this.player = player;
+    }
+    public Entity getPlayer() {
+        return player;
+    }
 }
