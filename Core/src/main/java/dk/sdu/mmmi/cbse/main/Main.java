@@ -8,18 +8,21 @@ import dk.sdu.mmmi.cbse.common.enemy.Enemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
+
 import static java.util.stream.Collectors.toList;
 
 import dk.sdu.mmmi.cbse.playersystem.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -36,6 +39,9 @@ public class Main extends Application {
     private long startTime = System.nanoTime();
     private final Text playerLivesText = new Text();
     private final Text enemyLivesText = new Text();
+    private final HttpClient client = HttpClient.newHttpClient();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private Text scoreText = new Text();
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -49,9 +55,13 @@ public class Main extends Application {
         enemyLivesText.setText("Enemy Lives: " + getEnemyLives());
         enemyLivesText.setX(10);
         enemyLivesText.setY(40);
+        scoreText.setText("Score: ");
+        scoreText.setX(10);
+        scoreText.setY(60);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(playerLivesText);
         gameWindow.getChildren().add(enemyLivesText);
+        gameWindow.getChildren().add(scoreText);
         Scene scene = new Scene(gameWindow);
 
         scene.setOnKeyPressed(event -> {
@@ -99,7 +109,7 @@ public class Main extends Application {
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-
+        updateTextScoreTimer();
     }
 
     private int getPlayerLives() {
@@ -173,6 +183,20 @@ public class Main extends Application {
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
         }
+    }
+
+    private void updateTextScoreTimer() {
+        // using scheduler to update the score every 100 milliseconds
+        scheduler.scheduleAtFixedRate(() -> {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/getScore"))
+                    .build();
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    // apply the score from the response to the scoreText
+                    .thenAccept(response -> {
+                        Platform.runLater(() -> scoreText.setText("Score: " + response.body()));
+                    });
+        }, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {

@@ -11,7 +11,10 @@ import dk.sdu.mmmi.cbse.common.enemy.Enemy;
 import dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.playersystem.Player;
-
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.ServiceLoader;
 
@@ -21,6 +24,10 @@ public class CollisionDetector implements IPostEntityProcessingService {
     public CollisionDetector() {}
     
     IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
+    private final HttpClient client = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .build();
+
     @Override
     public void process(GameData gameData, World world) {
         // two for loops for all entities in the world
@@ -61,6 +68,15 @@ public class CollisionDetector implements IPostEntityProcessingService {
         }
     }
 
+    private void addScore(int score) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/score?score=" + score))
+                .GET()
+                .build();
+        // use sendAsync to avoid throwing exceptions
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     public Boolean collides(Entity entity1, Entity entity2) { // using corfixens collision detection example
         float dx = (float) entity1.getX() - (float) entity2.getX();
         float dy = (float) entity1.getY() - (float) entity2.getY();
@@ -76,13 +92,16 @@ public class CollisionDetector implements IPostEntityProcessingService {
             case LARGE:
                 asteroidSplitter.createSplitAsteroid(asteroid, world);
                 world.removeEntity(asteroid);
+                addScore(50);
                 break;
             case MEDIUM:
                 asteroidSplitter.createSplitAsteroid(asteroid, world);
                 world.removeEntity(asteroid);
+                addScore(100);
                 break;
             case SMALL:
                 world.removeEntity(asteroid);
+                addScore(200);
                 break;
         }
     }
@@ -93,6 +112,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             if (enemy.getLives() == 0) {
                 world.removeEntity(enemy);
                 world.removeEntity(entity);
+                addScore(500);
                 getEnemySPIs().stream().findFirst().ifPresent(
                         spi -> {
                             world.addEntity(spi.createEnemy(new GameData()));
