@@ -5,7 +5,6 @@ module Collision {
     requires Common;
     requires CommonAsteroids;
     requires CommonBullet;
-    requires Asteroid;
     requires CommonEnemy;
     requires Player;
     provides IPostEntityProcessingService with dk.sdu.mmmi.cbse.collision.CollisionDetector;

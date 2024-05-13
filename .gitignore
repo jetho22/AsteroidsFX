@@ -35,3 +35,4 @@ replay_pid*
 /Enemy/target/
 /CommonEnemy/target/
 /.idea/
+!/plugins/*.jar

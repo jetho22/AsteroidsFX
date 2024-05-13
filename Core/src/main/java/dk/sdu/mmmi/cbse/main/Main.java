@@ -8,12 +8,12 @@ import dk.sdu.mmmi.cbse.common.enemy.Enemy;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleReference;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 
@@ -37,8 +37,30 @@ public class Main extends Application {
     private final Text playerLivesText = new Text();
     private final Text enemyLivesText = new Text();
 
+    private static List<ModuleLayer> layers;
+
     public static void main(String[] args) {
-        launch(Main.class);
+       loadModules();
+       launch(Main.class);
+    }
+
+    private static void loadModules() {
+        layers = new ArrayList<>();
+        Path pluginsDir = Paths.get("plugins");
+        ModuleFinder pluginsFinder = ModuleFinder.of(pluginsDir);
+        pluginsFinder.findAll().stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .map(plugin -> createLayer(pluginsDir.toString(), plugin))
+                .forEach(layers::add);
+    }
+
+    private static ModuleLayer createLayer(String from, String module) {
+        System.out.println("Layer created for module: " + module);
+        var finder = ModuleFinder.of(Paths.get(from));
+        var parent = ModuleLayer.boot();
+        var cf = parent.configuration().resolve(finder, ModuleFinder.of(), Set.of(module));
+        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
 
     @Override
@@ -184,6 +206,13 @@ public class Main extends Application {
     }
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<IPostEntityProcessingService> services = new ArrayList<>();
+        ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get)
+                .forEach(services::add);
+        for (ModuleLayer layer : layers) {
+            ServiceLoader.load(layer, IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get)
+                    .forEach(services::add);
+        }
+        return services;
     }
 }
