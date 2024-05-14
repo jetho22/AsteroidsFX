@@ -1,0 +1,51 @@
+@startuml
+title
+<u>Collision - Sequence diagram</u>
+end title
+
+actor Entity1
+actor Entity2
+participant CollisionDetector
+participant GameData
+participant World
+participant AsteroidSplitterImpl as AsteroidSplitter
+participant EnemySPI
+
+Entity1 -> CollisionDetector: process(gameData, world)
+Entity2 -> CollisionDetector: process(gameData, world)
+loop for all entities in the world
+    CollisionDetector -> World: getEntities()
+    World -> CollisionDetector: return entities
+    CollisionDetector -> CollisionDetector: collides(entity1, entity2)
+        alt if bullet and asteroid
+            CollisionDetector -> AsteroidSplitter: handleAsteroidSplit(bullet, asteroid, world)
+            AsteroidSplitter -> World: removeEntity(bullet)
+            alt asteroid type is LARGE or MEDIUM
+                AsteroidSplitter -> AsteroidSplitter: createSplitAsteroid(asteroid, world)
+                AsteroidSplitter -> World: removeEntity(asteroid)
+            else asteroid type is SMALL
+                AsteroidSplitter -> World: removeEntity(asteroid)
+            end
+        else if entity1 or entity2 is Enemy
+            CollisionDetector -> CollisionDetector: handleEntityEnemyCollision(entity1, entity2, world)
+            alt enemy lives > 0
+                CollisionDetector -> World: removeEntity(entity1)
+            else enemy lives == 0
+                CollisionDetector -> World: removeEntity(enemy)
+                CollisionDetector -> World: removeEntity(entity1)
+                CollisionDetector -> CollisionDetector: getEnemySPIs()
+                CollisionDetector -> EnemySPI: createEnemy(gameData)
+                EnemySPI -> World: addEntity(enemy)
+            end
+        else if entity1 or entity2 is Player
+            CollisionDetector -> CollisionDetector: handleEntityPlayerCollision(entity1, entity2, world)
+            alt player lives > 0
+                CollisionDetector -> World: removeEntity(entity1)
+            else player lives == 0
+                CollisionDetector -> World: removeEntity(player)
+                CollisionDetector -> World: removeEntity(entity1)
+            end
+        end
+    end
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+title
+<u>Player Shooting - Sequence diagram</u>
+end title
+
+actor Player
+participant GameData
+participant GameKeys
+participant PlayerControlSystem
+participant World
+participant BulletSPI
+
+Player -> GameKeys: isPressed(GameKeys.SPACE)
+GameKeys -> PlayerControlSystem: process(gameData, world)
+PlayerControlSystem -> World: getEntities(Player.class)
+World -> PlayerControlSystem: return players
+PlayerControlSystem -> GameKeys: isPressed(GameKeys.SPACE)
+alt SPACE is pressed
+    PlayerControlSystem -> PlayerControlSystem: getBulletSPIs()
+    PlayerControlSystem -> BulletSPI: createBullet(player, gameData)
+    BulletSPI -> PlayerControlSystem: return bullet
+    PlayerControlSystem -> World: addEntity(bullet)
+end
+@enduml
