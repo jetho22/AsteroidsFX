@@ -1,8 +1,7 @@
 package dk.sdu.mmmi.cbse.collision;
 
-import dk.sdu.mmmi.cbse.asteroid.AsteroidSplitterImpl;
 import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
-import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
+import dk.sdu.mmmi.cbse.common.asteroids.AsteroidSplitterSPI;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -20,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 public class CollisionDetector implements IPostEntityProcessingService {
     public CollisionDetector() {}
     
-    IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
     @Override
     public void process(GameData gameData, World world) {
         // two for loops for all entities in the world
@@ -74,11 +72,12 @@ public class CollisionDetector implements IPostEntityProcessingService {
         world.removeEntity(bullet);
         switch (asteroid.getType()) {
             case LARGE:
-                asteroidSplitter.createSplitAsteroid(asteroid, world);
-                world.removeEntity(asteroid);
-                break;
             case MEDIUM:
-                asteroidSplitter.createSplitAsteroid(asteroid, world);
+                getAsteroidSplitter().stream().findFirst().ifPresent(
+                        spi -> {
+                            spi.createSplitAsteroid(asteroid, world);
+                        }
+                );
                 world.removeEntity(asteroid);
                 break;
             case SMALL:
@@ -117,6 +116,10 @@ public class CollisionDetector implements IPostEntityProcessingService {
 
     private Collection<? extends EnemySPI> getEnemySPIs() {
         return ServiceLoader.load(EnemySPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+
+    private Collection<? extends AsteroidSplitterSPI> getAsteroidSplitter() {
+        return ServiceLoader.load(AsteroidSplitterSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }
 

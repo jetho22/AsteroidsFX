@@ -1,7 +1,10 @@
+import dk.sdu.mmmi.cbse.common.asteroids.AsteroidSplitterSPI;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
 
 module Collision {
-    uses dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
+    uses EnemySPI;
+    uses AsteroidSplitterSPI;
     requires Common;
     requires CommonAsteroids;
     requires CommonBullet;

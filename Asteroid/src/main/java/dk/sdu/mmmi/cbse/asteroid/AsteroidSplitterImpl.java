@@ -1,14 +1,11 @@
 package dk.sdu.mmmi.cbse.asteroid;
 
 import dk.sdu.mmmi.cbse.common.asteroids.Asteroid;
-import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
+import dk.sdu.mmmi.cbse.common.asteroids.AsteroidSplitterSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 
-import java.util.Random;
-
-public class AsteroidSplitterImpl implements IAsteroidSplitter {
+public class AsteroidSplitterImpl implements AsteroidSplitterSPI {
 
     @Override
     public void createSplitAsteroid(Entity e, World world) {
