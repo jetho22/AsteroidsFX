@@ -1,0 +1,35 @@
+@startuml
+title "Bullet class diagram"
+component CommonBullet {
+    interface BulletSPI {
+        +Entity createBullet(Entity shooter, GameData gameData)
+    }
+
+    class Bullet {
+        +Bullet()
+        +Entity owner
+        +void setOwner(Entity owner)
+        +Entity getOwner()
+    }
+}
+
+component Bullet {
+    class BulletControlSystem {
+        +void process(GameData gameData, World world)
+        +void bulletMovement(Entity bullet)
+        +void removeBulletIfOutOfBounds(Entity bullet, GameData gameData, World world)
+        +Entity createBullet(Entity shooter, GameData gameData)
+    }
+
+    class BulletPlugin {
+        +void start(GameData gameData, World world)
+        +void stop(GameData gameData, World world)
+        +Entity createBullet(Entity shooter, GameData gameData)
+    }
+}
+
+BulletSPI <|.. BulletPlugin
+
+BulletControlSystem --> CommonBullet.Bullet
+BulletPlugin --> CommonBullet.Bullet
+@enduml

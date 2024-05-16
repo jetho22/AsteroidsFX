@@ -1,0 +1,47 @@
+@startuml
+title "Asteroid class diagram"
+component CommonAsteroid {
+    interface AsteroidSplitterSPI {
+        +void createSplitAsteroid(Entity e, World w)
+    }
+
+    class Asteroid {
+        +enum Type { LARGE, MEDIUM, SMALL }
+        +Type type
+        +Asteroid()
+        +void setType(Type type)
+        +Type getType()
+    }
+
+}
+
+component Asteroid {
+    class AsteroidControlSystem {
+        +void process(GameData gameData, World world)
+        +void checkAsteroidOutOfBounds(Entity asteroid, GameData gameData)
+        +void asteroidMovement(Entity asteroid)
+    }
+
+    class AsteroidPlugin {
+        +void start(GameData gameData, World world)
+        +void stop(GameData gameData, World world)
+        +Entity createAsteroid(GameData gameData, Asteroid.Type type, double size)
+        +Entity smallAsteroid(GameData gameData)
+        +Entity mediumAsteroid(GameData gameData)
+        +Entity largeAsteroid(GameData gameData)
+        +void asteroidCreationTimer(GameData gameData, World world)
+    }
+
+    class AsteroidSplitterImpl {
+        +void createSplitAsteroid(Entity e, World w)
+        +Entity splitAsteroidSpawner(Asteroid parent, Asteroid.Type smallerType)
+    }
+}
+
+AsteroidControlSystem --> CommonAsteroid.Asteroid
+AsteroidPlugin --> CommonAsteroid.Asteroid
+AsteroidSplitterImpl --|> CommonAsteroid.AsteroidSplitterSPI
+AsteroidSplitterImpl --> CommonAsteroid.Asteroid
+
+
+@enduml
