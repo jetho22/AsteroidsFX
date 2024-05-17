@@ -2,34 +2,28 @@
 title "Bullet class diagram"
 component CommonBullet {
     interface BulletSPI {
-        +Entity createBullet(Entity shooter, GameData gameData)
+        +Entity createBullet()
     }
 
     class Bullet {
-        +Bullet()
-        +Entity owner
-        +void setOwner(Entity owner)
-        +Entity getOwner()
     }
 }
 
 component Bullet {
     class BulletControlSystem {
-        +void process(GameData gameData, World world)
-        +void bulletMovement(Entity bullet)
-        +void removeBulletIfOutOfBounds(Entity bullet, GameData gameData, World world)
-        +Entity createBullet(Entity shooter, GameData gameData)
+        +void process()
     }
 
     class BulletPlugin {
-        +void start(GameData gameData, World world)
-        +void stop(GameData gameData, World world)
-        +Entity createBullet(Entity shooter, GameData gameData)
+        +void start()
+        +void stop()
+        +Entity createBullet()
     }
+
 }
 
 BulletSPI <|.. BulletPlugin
 
-BulletControlSystem --> CommonBullet.Bullet
-BulletPlugin --> CommonBullet.Bullet
+BulletControlSystem --> CommonBullet.Bullet : updates
+BulletPlugin --> CommonBullet.Bullet : instantiates
 @enduml

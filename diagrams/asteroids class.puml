@@ -7,10 +7,6 @@ component CommonAsteroid {
 
     class Asteroid {
         +enum Type { LARGE, MEDIUM, SMALL }
-        +Type type
-        +Asteroid()
-        +void setType(Type type)
-        +Type getType()
     }
 
 }
@@ -18,23 +14,15 @@ component CommonAsteroid {
 component Asteroid {
     class AsteroidControlSystem {
         +void process(GameData gameData, World world)
-        +void checkAsteroidOutOfBounds(Entity asteroid, GameData gameData)
-        +void asteroidMovement(Entity asteroid)
     }
 
     class AsteroidPlugin {
         +void start(GameData gameData, World world)
         +void stop(GameData gameData, World world)
-        +Entity createAsteroid(GameData gameData, Asteroid.Type type, double size)
-        +Entity smallAsteroid(GameData gameData)
-        +Entity mediumAsteroid(GameData gameData)
-        +Entity largeAsteroid(GameData gameData)
-        +void asteroidCreationTimer(GameData gameData, World world)
     }
 
     class AsteroidSplitterImpl {
         +void createSplitAsteroid(Entity e, World w)
-        +Entity splitAsteroidSpawner(Asteroid parent, Asteroid.Type smallerType)
     }
 }
 

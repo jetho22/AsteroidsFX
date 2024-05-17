@@ -7,9 +7,8 @@ module Collision {
     uses AsteroidSplitterSPI;
     requires Common;
     requires CommonAsteroids;
-    requires CommonBullet;
-    requires Asteroid;
     requires CommonEnemy;
+    requires CommonBullet;
     requires Player;
     provides IPostEntityProcessingService with dk.sdu.mmmi.cbse.collision.CollisionDetector;
 }
